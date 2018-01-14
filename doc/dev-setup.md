@@ -8,10 +8,19 @@ There is a one page official wiki https://github.com/oltpbenchmark/oltpbench/wik
 
 wonder where is the distributed test described in the paper, ssh into server and collect metrics etc.
 
+- start database
+- create database in database, i.e. tpcc, oltpbench will create tables, but it does not create the database
+- update the password in sample config (should create it first)
+- `./oltpbenchmark -b tpcc -c config/sample_tpcc_config.xml --create=true --load=true --execute=true -s 5 -o outputfile`
+  - csv file include the transaction
+- it won't drop the tables after benchmark (it will drop the table before start in DDL)
+
 ## DB
 
 Just use docker at first, might have very bad result using default configuration,
 but easy to test if things are correct locally.
+
+- mysql, works with 5.7, but 8.0 would break with [java.math.BigInteger cannot be cast to java.lang.Long](https://github.com/benchhub/forks/issues/2)
 
 ## IDE
 
