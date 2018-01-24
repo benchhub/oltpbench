@@ -6,29 +6,24 @@ sudo: required
 services:
   # TODO: what version of docker is travis running
   - docker
-language: java
-# TODO： just use one jdk?
-#jdk:
-#  - oraclejdk8
-#  - openjdk8
+language: java # default is oracle JDK 1.8.0_151
 # TODO: build matrix for different database and benchmarks
+# https://docs.travis-ci.com/user/environment-variables/#Defining-Multiple-Variables-per-Item
 env:
-  - TEST=TPCC
-  - TEST=TPCH
-matrix:
-  include:
-    - env: DB=MYSQL
-    - env: DB=POSTGRES
+  - TEST=TPCC DB=MYSQL
+  - TEST=TPCC DB=POSTGRES
+  - TEST=TPCH DB=MYSQL
+  - TEST=TPCH DB=POSTGRES
 # https://stackoverflow.com/questions/34377017/what-are-the-differences-between-the-before-install-script-travis-yml-opti
 before_install:
   - java -version
   - docker version
   - docker-compose version
 install:
-  - if [ $DB == MYSQL ]; docker-compose -f docker/mysql.yml up -d
-  - if [ $DB == POSTGRES]; docker-compose -f docker/postgres.yml up -d
+  - sh -c "if [ $DB == 'MYSQL' ]; then docker-compose -f docker/mysql.yml up -d; fi"
+  - sh -c "if [ $DB == 'POSTGRES' ]; then docker-compose -f docker/postgres.yml up -d; fi"
 script:
   - echo "${TEST} ${DB}"
 after_script:
-  - if [ $DB == MYSQL ]; docker-compose -f docker/mysql.yml down
-  - if [ $DB == POSTGRES]; docker-compose -f docker/postgres.yml down
+  - sh -c "if [ $DB == 'MYSQL' ]; then docker-compose -f docker/mysql.yml down; fi"
+  - sh -c "if [ $DB == 'POSTGRES']; then docker-compose -f docker/postgres.yml down; fi"
