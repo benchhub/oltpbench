@@ -7,6 +7,8 @@ services:
   # TODO: what version of docker is travis running
   - docker
 language: java # default is oracle JDK 1.8.0_151
+jdk:
+  - oraclejdk8
 # TODO: build matrix for different database and benchmarks
 # https://docs.travis-ci.com/user/environment-variables/#Defining-Multiple-Variables-per-Item
 env:
@@ -21,10 +23,10 @@ before_install:
   - docker-compose version
 # https://docs.travis-ci.com/user/database-setup/#Multiple-Database-Builds
 install:
-  - sh -c "if [ '$DB' == 'MYSQL' ]; then docker-compose -f docker/mysql.yml up -d; fi"
-  - sh -c "if [ '$DB' == 'POSTGRES' ]; then docker-compose -f docker/postgres.yml up -d; fi"
+  - if [ "$DB" == 'MYSQL' ]; then docker-compose -f docker/mysql.yml up -d; fi
+  - if [ "$DB" == 'POSTGRES' ]; then docker-compose -f docker/postgres.yml up -d; fi
 script:
   - echo "${TEST} ${DB}"
 after_script:
-  - sh -c "if [ '$DB' == 'MYSQL' ]; then docker-compose -f docker/mysql.yml down; fi"
-  - sh -c "if [ '$DB' == 'POSTGRES']; then docker-compose -f docker/postgres.yml down; fi"
+  - if [ "$DB" == 'MYSQL' ]; then docker-compose -f docker/mysql.yml down; fi
+  - if [ "$DB" == 'POSTGRES' ]; then docker-compose -f docker/postgres.yml down; fi
