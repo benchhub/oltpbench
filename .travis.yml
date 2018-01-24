@@ -21,6 +21,11 @@ before_install:
   - java -version
   - docker version
   - docker-compose version
+  # check if common ports are already in use ...
+  - sudo netstat -nlp | grep :3306
+  - sudo netstat -nlp | grep :5432
+  - if [ "$DB" == 'MYSQL' ]; then sudo service mysql stop; fi
+  - if [ "$DB" == 'POSTGRES' ]; then sudo service postgresql stop; fi
 # https://docs.travis-ci.com/user/database-setup/#Multiple-Database-Builds
 install:
   - if [ "$DB" == 'MYSQL' ]; then docker-compose -f docker/mysql.yml up -d; fi
