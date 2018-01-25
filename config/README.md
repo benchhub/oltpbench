@@ -23,7 +23,7 @@ TODO: there should be a table (generated ...)
 - tatp
 - tpcc
 - tpch
-- [ ] tpcds
+- [x] tpcds
   - pending pr https://github.com/oltpbenchmark/oltpbench/pull/222
 - twitter
 - voter

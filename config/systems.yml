@@ -1,0 +1,9 @@
+# list of databases, TODO: order by name
+mysql:
+  name: MySQL
+  driver: com.mysql.jdbc.Driver
+  port: 3306
+postgres:
+  name: PostgreSQL
+  driver: org.postgresql.Driver
+  port: 5432
