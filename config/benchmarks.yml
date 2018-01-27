@@ -8,13 +8,13 @@ auctionmark:
   # shorter names
   alias:
     - auction
-  # original homepage url, could be dead ...
+  # original homepage/paper link, could be dead ...
   url: http://hstore.cs.brown.edu/projects/auctionmark/
-  # list of contributions in time order
+  # list of contributions in time order, use github id, prefer PR over commit hash for url
   contributions:
-    - time: TODO: time format
-      author: 
-      url:
+    - time: 2012-01-20
+      author: apavlo
+      url: https://github.com/oltpbenchmark/oltpbench/commit/cac6786e86869fd23ddb7813ced8357406c4aaef
 chbenchmark:
   name: CH-benCHmark
   description: A mix of TPC-C and TPC-H run in parallel on a single DBMS
@@ -71,12 +71,63 @@ sibench:
   description: Snapshot Isolation
   alias:
     - si
-  # link dead
-  url: http://sydney.edu.au/engineering/it/~fekete/teaching/serializableSI-Fekete.pdf
+  url: https://courses.cs.washington.edu/courses/cse444/08au/544M/READING-LIST/fekete-sigmod2008.pdf
 smallbank:
   name: SmallBank
   description: A bank with only three tables accounts, saving and checking
   alias:
     - sb
   url: https://ses.library.usyd.edu.au/bitstream/2123/5353/1/michael-cahill-2009-thesis.pdf
-TODO: still some left ....  tatp, tpcc, tpcds, tpch, twitter, voter, wikipedia, ycsb
+tatp:
+  name: TATP
+  description: Telecom Application Transaction Processing Benchmark
+  alias:
+    - telecom
+  url: http://tatpbenchmark.sourceforge.net/
+tpcc:
+  name: TPC-C
+  description: an On-Line Transaction Processing Benchmark
+  alias:
+    - tpc-c
+  url: http://www.tpc.org/tpcc/
+tpcds:
+  name: TPC-DS
+  description: a Decision Support Benchmark
+  alias:
+    - tpc-ds
+  url: http://www.tpc.org/tpcds/
+  contributions: 
+    - time: 2018-01-20
+      author: mpardesh
+      url: https://github.com/oltpbenchmark/oltpbench/pull/222
+tpch:
+  name: TPC-H
+  description: a Descision Support Benchmark for bussiness oriented ad-hoc queries and concurrent data modifications
+  alias:
+    - tpc-h
+  url: http://www.tpc.org/tpch/
+twitter:
+  name: Twitter
+  description: Twitter
+  alias:
+    - tw
+  url: https://twitter.com/andy_pavlo
+voter:
+  name: Voter
+  description: Japanese "American Idol"
+  alias:
+    - idol
+  url: https://github.com/VoltDB/voltdb/tree/master/examples/voter
+wikipedia:
+  name: Wikipedia
+  description: Wikipedia
+  alias:
+    - wiki
+  url: https://www.wikipedia.org/
+ycsb:
+  name: YCSB
+  description: Yahoo! Cloud Serving Benchmark
+  alias:
+    - ycbs
+    - bscy
+  url: https://github.com/brianfrankcooper/YCSB
