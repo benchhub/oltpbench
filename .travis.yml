@@ -12,29 +12,31 @@ jdk:
 # TODO: build matrix for different database and benchmarks
 # https://docs.travis-ci.com/user/environment-variables/#Defining-Multiple-Variables-per-Item
 env:
-  - TEST=TPCC DB=MYSQL
-  - TEST=TPCC DB=POSTGRES
-  - TEST=TPCH DB=MYSQL
-  - TEST=TPCH DB=POSTGRES
+  - TEST=tpcc DB=mysql
+  - TEST=tpcc DB=postgres
+  - TEST=TPCH DB=mysql
+  - TEST=TPCH DB=postgres
 # https://stackoverflow.com/questions/34377017/what-are-the-differences-between-the-before-install-script-travis-yml-opti
 before_install:
   - java -version
   - docker version
   - docker-compose version
+  - pip install pyyaml
   # check if common ports are already in use ...
   - sudo netstat -nlp | grep :3306
   - sudo netstat -nlp | grep :5432
-  - if [ "$DB" == 'MYSQL' ]; then sudo service mysql stop; fi
-  - if [ "$DB" == 'POSTGRES' ]; then sudo service postgresql stop; fi
+  - if [ "$DB" == 'mysql' ]; then sudo service mysql stop; fi
+  - if [ "$DB" == 'postgres' ]; then sudo service postgresql stop; fi
 # https://docs.travis-ci.com/user/database-setup/#Multiple-Database-Builds
 install:
-  - if [ "$DB" == 'MYSQL' ]; then docker-compose -f docker/mysql.yml up -d; fi
-  - if [ "$DB" == 'POSTGRES' ]; then docker-compose -f docker/postgres.yml up -d; fi
+  - ant build
+  - if [ "$DB" == 'mysql' ]; then docker-compose -f docker/mysql.yml up -d; fi
+  - if [ "$DB" == 'postgres' ]; then docker-compose -f docker/postgres.yml up -d; fi
 before_script:
   - cd config; ./config.py valid
 script:
   - cd config; ./config.py generate --bench ${TEST} --db ${DB}
   - echo "${TEST} ${DB}"
 after_script:
-  - if [ "$DB" == 'MYSQL' ]; then docker-compose -f docker/mysql.yml down; fi
-  - if [ "$DB" == 'POSTGRES' ]; then docker-compose -f docker/postgres.yml down; fi
+  - if [ "$DB" == 'mysql' ]; then docker-compose -f docker/mysql.yml down; fi
+  - if [ "$DB" == 'postgres' ]; then docker-compose -f docker/postgres.yml down; fi

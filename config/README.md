@@ -7,6 +7,9 @@ TODO
 
 TODO: there should be a table (generated ...)
 
+- benchmarks, default database is mysql
+- databases, default benchmark is ycsb
+
 ## Workloads
 
 - auctionmark

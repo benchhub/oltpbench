@@ -128,7 +128,7 @@ class ConfigUtil:
             output_file = 'generated_{}_{}_config.xml'.format(
                 self.benchmark, self.database)
         tree.write(output_file)
-        logging.info('config file genertead to %s', output_file)
+        print(output_file)
 
     def benchmarks(self):
         self.valid()

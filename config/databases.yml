@@ -5,6 +5,7 @@ mysql:
   port: 3306
   username: root
   password: oltpbenchpassword
+  # TODO: docker and local installation may use different default user and pwd
 postgres:
   name: PostgreSQL
   alias:
