@@ -18,10 +18,11 @@ env:
   # - TEST=TPCH DB=postgres
 # https://stackoverflow.com/questions/34377017/what-are-the-differences-between-the-before-install-script-travis-yml-opti
 before_install:
+  - sudo apt-get install python3
+  - pip3 install pyyaml
   - java -version
   - docker version
   - docker-compose version
-  - pip3 install pyyaml
   # check if common ports are already in use ...
   - sudo netstat -nlp | grep :3306
   - sudo netstat -nlp | grep :5432
