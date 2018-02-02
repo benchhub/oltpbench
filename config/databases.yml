@@ -3,6 +3,8 @@ mysql:
   name: MySQL
   driver: com.mysql.jdbc.Driver
   port: 3306
+  username: root
+  password: oltpbenchpassword
 postgres:
   name: PostgreSQL
   alias:
@@ -10,3 +12,5 @@ postgres:
     - pg
   driver: org.postgresql.Driver
   port: 5432
+  username: oltpbench
+  password: oltpbenchpassword

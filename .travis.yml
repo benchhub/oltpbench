@@ -30,7 +30,10 @@ before_install:
 install:
   - if [ "$DB" == 'MYSQL' ]; then docker-compose -f docker/mysql.yml up -d; fi
   - if [ "$DB" == 'POSTGRES' ]; then docker-compose -f docker/postgres.yml up -d; fi
+before_script:
+  - cd config; ./config.py valid
 script:
+  - cd config; ./config.py generate --bench ${TEST} --db ${DB}
   - echo "${TEST} ${DB}"
 after_script:
   - if [ "$DB" == 'MYSQL' ]; then docker-compose -f docker/mysql.yml down; fi
