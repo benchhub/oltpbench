@@ -13,15 +13,15 @@ jdk:
 # https://docs.travis-ci.com/user/environment-variables/#Defining-Multiple-Variables-per-Item
 env:
   - TEST=tpcc DB=mysql
-  - TEST=tpcc DB=postgres
-  - TEST=TPCH DB=mysql
-  - TEST=TPCH DB=postgres
+  # - TEST=tpcc DB=postgres
+  # - TEST=TPCH DB=mysql
+  # - TEST=TPCH DB=postgres
 # https://stackoverflow.com/questions/34377017/what-are-the-differences-between-the-before-install-script-travis-yml-opti
 before_install:
   - java -version
   - docker version
   - docker-compose version
-  - pip install pyyaml
+  - pip3 install pyyaml
   # check if common ports are already in use ...
   - sudo netstat -nlp | grep :3306
   - sudo netstat -nlp | grep :5432

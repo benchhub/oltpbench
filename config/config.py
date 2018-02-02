@@ -13,7 +13,7 @@ import xml.etree.ElementTree as ET  # config are written in XML
 
 NAME_PRIMARY = 1
 NAME_ALIAS = 2
-CATALOG_BECHMARK_FILE = 'benchmarks.yml'
+CATALOG_BENCHMARK_FILE = 'benchmarks.yml'
 CATALOG_DATABASE_FILE = 'databases.yml'
 DB_URL = 'jdbc:{dbms}://{host}:{port}/{db}'
 
@@ -46,8 +46,8 @@ def print_names(entities):
 
 
 def validate_benchmarks():
-    logging.debug('validate %s', CATALOG_BECHMARK_FILE)
-    benchmarks = load_yaml(CATALOG_BECHMARK_FILE)
+    logging.debug('validate %s', CATALOG_BENCHMARK_FILE)
+    benchmarks = load_yaml(CATALOG_BENCHMARK_FILE)
     has_duplicate_name(benchmarks)
     return benchmarks
 
