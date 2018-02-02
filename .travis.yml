@@ -9,6 +9,11 @@ services:
 language: java # default is oracle JDK 1.8.0_151
 jdk:
   - oraclejdk8
+addons:
+  apt:
+    packages:
+      - "python3"
+      - "python3-pip"
 # TODO: build matrix for different database and benchmarks
 # https://docs.travis-ci.com/user/environment-variables/#Defining-Multiple-Variables-per-Item
 env:
@@ -18,7 +23,6 @@ env:
   # - TEST=TPCH DB=postgres
 # https://stackoverflow.com/questions/34377017/what-are-the-differences-between-the-before-install-script-travis-yml-opti
 before_install:
-  - sudo apt-get install python3.6
   - pip3 install pyyaml
   - java -version
   - docker version
