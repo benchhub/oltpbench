@@ -1,13 +1,14 @@
 <?xml version="1.0"?>
 <parameters>
 	
-    <!-- Connection details -->
+    <!-- Start of Connection details -->
     <dbtype>mysql</dbtype>
     <driver>com.mysql.jdbc.Driver</driver>
     <DBUrl>jdbc:mysql://server:3306/auctionmark</DBUrl>
-    <username>user</username>
-    <password>password</password>
+    <username>root</username>
+    <password>oltpbenchpasswor</password>
     <isolation>TRANSACTION_SERIALIZABLE</isolation>
+    <!-- End of Connection details -->
     
     <!-- Scalefactor in AuctionMark scales by *1000 the number of customers-->
     <scalefactor>10</scalefactor>
