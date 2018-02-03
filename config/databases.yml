@@ -6,8 +6,8 @@ mysql:
   username: root
   password: oltpbenchpassword
   create_db: "CREATE DATABASE IF NOT EXISTS {db}"
-  shell: "mysql -u {user} -p{pwd}"
-  shell_exec: "mysql -u {user} -p{pwd} -e \"{sql}\""
+  shell: "mysql -u {username} -p{password}"
+  shell_exec: "mysql -u {username} -p{password} -e \"{sql}\""
   # TODO: docker and local installation may use different default user and pwd
 postgres:
   name: PostgreSQL
@@ -20,6 +20,7 @@ postgres:
   dburl: "jdbc:postgresql://{host}:{port}/{db}"
   username: oltpbench
   password: oltpbenchpassword
+  # NOTE: https://stackoverflow.com/questions/18389124/simulate-create-database-if-not-exists-for-postgresql
   create_db: "CREATE DATABASE {db}"
-  shell: "psql -U {user} -h 127.0.0.1"
-  shell_exec: "psql -U {user} -h 127.0.0.1 -c \"{sql}\""
+  shell: "psql -U {username} -h 127.0.0.1"
+  shell_exec: "psql -U {username} -h 127.0.0.1 -c \"{sql}\""

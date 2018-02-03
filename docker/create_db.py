@@ -7,12 +7,12 @@ cli for creating database based on catalog
 import os
 import argparse
 import logging
-import subprocess # TODO: 3.6 has newer API
+import subprocess  # NOTE: we use older API because travis have Python 3.4.3
 
 import yaml
 
-# CATALOG_BENCHMARK_FILE = '../benchmarks.yml'
-CATALOG_DATABASE_FILE = '../databases.yml'
+# CATALOG_BENCHMARK_FILE = '../config/benchmarks.yml'
+CATALOG_DATABASE_FILE = '../config/databases.yml'
 
 
 def load_yaml(file):
@@ -40,7 +40,24 @@ class DbUtil:
         self.catalog_databases = load_yaml(CATALOG_DATABASE_FILE)
 
     def create_db(self):
-        pass
+        if not self.database in self.catalog_databases:
+            logging.error(
+                'database %s is not in catalog, check config/databases.yml or run `config/config.py benchmarks`', self.database)
+            exit(1)
+        db = self.catalog_databases[self.database]
+        cmd = db['shell_exec']
+        sql = db['create_db'].replace('{db}', self.benchmark)
+        cmd = cmd.replace('{username}', db['username']).replace(
+            '{password}', db['password']).replace('{sql}', sql)
+        logging.debug(cmd)
+        code = subprocess.call([
+            'docker-compose', '-f', self.database + '.yml',
+            'exec', self.database, 'bash', '-c', cmd
+        ])
+        if code != 0:
+            logging.error('non zero return code %d', code)
+            exit(1)
+        print('created database {} for {}'.format(self.benchmark, self.database))
 
 
 def main():
