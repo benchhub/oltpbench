@@ -61,10 +61,11 @@ TODO: a lot of databases talk in same protocol ...
   - [ ] Pending PR https://github.com/oltpbenchmark/oltpbench/pull/190
 - Peloton
   - [ ] Known issue https://github.com/cmu-db/peloton/issues/1080
-  
+- Cassandra https://github.com/oltpbenchmark/oltpbench/pull/228
+
 In coming databases
 
-- Cassandra https://github.com/oltpbenchmark/oltpbench/pull/220
+
 - Comdb2 https://github.com/oltpbenchmark/oltpbench/pull/184
   - tpcc
   - wikipedia
