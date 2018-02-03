@@ -13,5 +13,7 @@ postgres:
     - pg
   driver: org.postgresql.Driver
   port: 5432
+  # NOTE: this is needed because database name is postgres instead of postgresql
+  dburl: "jdbc:postgresql://{host}:{port}/{db}"
   username: oltpbench
   password: oltpbenchpassword

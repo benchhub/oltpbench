@@ -15,7 +15,7 @@ NAME_PRIMARY = 1
 NAME_ALIAS = 2
 CATALOG_BENCHMARK_FILE = 'benchmarks.yml'
 CATALOG_DATABASE_FILE = 'databases.yml'
-DB_URL = 'jdbc:{dbms}://{host}:{port}/{db}'
+DB_URL_TEMPLATE = 'jdbc:{dbms}://{host}:{port}/{db}'
 
 
 def has_duplicate_name(entities):
@@ -85,6 +85,16 @@ class ConfigUtil:
         self.database = args.db.lower()
         self.output = args.output
 
+    def validate_args(self):
+        if not self.benchmark in self.catalog_benchmarks:
+            logging.error(
+                'benchmark %s is not in catalog, run `config.py benchmarks` to see supported benchmarks', self.benchmark)
+            exit(1)
+        if not self.database in self.catalog_databases:
+            logging.error(
+                'database %s is not in catlog, run `config.py databases` to see supported databases', self.database)
+            exit(1)
+
     def validate(self):
         if self.validated:
             return
@@ -97,14 +107,7 @@ class ConfigUtil:
         logging.debug('generate config for benchmark %s database %s',
                       self.benchmark, self.database)
         # check catalog
-        if not self.benchmark in self.catalog_benchmarks:
-            logging.error(
-                'benchmark %s is not in catalog, run `config.py benchmarks` to see supported benchmarks', self.benchmark)
-            exit(1)
-        if not self.database in self.catalog_databases:
-            logging.error(
-                'database %s is not in catlog, run `config.py databases` to see supported databases', self.database)
-            exit(1)
+        self.validate_args()
         # locate the sample
         sample_benchmark_file = 'benchmarks/sample_' + self.benchmark + '_config.xml'
         if not os.path.isfile(sample_benchmark_file):
@@ -113,12 +116,16 @@ class ConfigUtil:
             exit(1)
         tree = ET.parse(sample_benchmark_file)
         root = tree.getroot()
-        # grab database
+        # update database connection
         # TODO: merge w/ command args
         db = self.catalog_databases[self.database]
         root.find('dbtype').text = self.database
         root.find('driver').text = db['driver']
-        root.find('DBUrl').text = DB_URL.replace('{dbms}', self.database).replace(
+        if db['dburl']:
+            db_url = db['dburl']
+        else:
+            db_url = DB_URL_TEMPLATE
+        root.find('DBUrl').text = db_url.replace('{dbms}', self.database).replace(
             '{host}', 'localhost').replace('{port}', str(db['port'])).replace('{db}', self.benchmark)
         root.find('username').text = db['username']
         root.find('password').text = db['password']
