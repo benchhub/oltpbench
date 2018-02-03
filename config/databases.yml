@@ -5,6 +5,9 @@ mysql:
   port: 3306
   username: root
   password: oltpbenchpassword
+  create_db: "CREATE DATABASE IF NOT EXISTS {db}"
+  shell: "mysql -u {user} -p{pwd}"
+  shell_exec: "mysql -u {user} -p{pwd} -e \"{sql}\""
   # TODO: docker and local installation may use different default user and pwd
 postgres:
   name: PostgreSQL
@@ -17,3 +20,6 @@ postgres:
   dburl: "jdbc:postgresql://{host}:{port}/{db}"
   username: oltpbench
   password: oltpbenchpassword
+  create_db: "CREATE DATABASE {db}"
+  shell: "psql -U {user} -h 127.0.0.1"
+  shell_exec: "psql -U {user} -h 127.0.0.1 -c \"{sql}\""

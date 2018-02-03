@@ -121,10 +121,7 @@ class ConfigUtil:
         db = self.catalog_databases[self.database]
         root.find('dbtype').text = self.database
         root.find('driver').text = db['driver']
-        if db['dburl']:
-            db_url = db['dburl']
-        else:
-            db_url = DB_URL_TEMPLATE
+        db_url = db.get('dburl', DB_URL_TEMPLATE)
         root.find('DBUrl').text = db_url.replace('{dbms}', self.database).replace(
             '{host}', 'localhost').replace('{port}', str(db['port'])).replace('{db}', self.benchmark)
         root.find('username').text = db['username']

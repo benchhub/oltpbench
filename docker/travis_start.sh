@@ -9,6 +9,7 @@ popd > /dev/null
 ORIGINAL_WD=${PWD}
 cd ${SCRIPTPATH}
 
+# FIXME: can't inject this into command, also there are different dialects
 CREATE_DB_SQL="CREATE DATABASE IF NOT EXISTS ${BENCH};"
 
 if [ "$DB" == 'mysql' ]; then 
