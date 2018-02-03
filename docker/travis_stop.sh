@@ -9,7 +9,6 @@ popd > /dev/null
 ORIGINAL_WD=${PWD}
 cd ${SCRIPTPATH}
 
-if [ "$DB" == 'mysql' ]; then docker-compose -f mysql.yml down; fi
-if [ "$DB" == 'postgres' ]; then docker-compose -f postgres.yml down; fi
+docker-compose -f ${DB}.yml down
 
 cd ${ORIGINAL_WD}

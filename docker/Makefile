@@ -3,6 +3,16 @@ BCONF=config/benchmarks
 
 # TODO: might use a python file ... make file is to hard to reuse, also `sed` is different under mac
 
+##--- docker ---#
+.PHONY: docker-stop-all-containers
+docker-stop-all-containers:
+	docker stop $(shell docker ps -a -q)
+
+.PHONY: docker-remove-all-containers
+docker-remove-all-containers:
+	docker rm $(shell docker ps -a -q)
+##--- docker ---#
+
 ##--- database ---#
 .PHONY: mysql-up
 mysql-up:
@@ -23,6 +33,11 @@ mysql-create-db:
 .PHONY: postgres-db-shell
 postgres-db-shell:
 	docker-compose -f postgres.yml exec postgres psql -U oltpbench -h 127.0.0.1
+
+.PHONY: cassandra-db-shell
+cassandra-db-shell:
+	docker-compose -f cassandra.yml exec cassandra cqlsh
+
 ##--- database ---#
 
 ##--- benchmark ---#

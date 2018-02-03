@@ -10,16 +10,14 @@ ORIGINAL_WD=${PWD}
 cd ${SCRIPTPATH}
 
 
-if [ "$DB" == 'mysql' ]; then 
-    docker-compose -f mysql.yml up -d
+docker-compose -f ${DB}.yml up -d
+
+if [ "$DB" == 'mysql' ]; then
     sleep 10
-    ./create_db.py --bench ${BENCH} --db ${DB}
+else
+    sleep 5
 fi
 
-if [ "$DB" == 'postgres' ]; then 
-    docker-compose -f postgres.yml up -d
-    sleep 5
-    ./create_db.py --bench ${BENCH} --db ${DB}
-fi
+./create_db.py --bench ${BENCH} --db ${DB}
 
 cd ${ORIGINAL_WD}

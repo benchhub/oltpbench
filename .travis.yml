@@ -19,6 +19,8 @@ addons:
 env:
   - BENCH=tpcc DB=mysql
   - BENCH=tpcc DB=postgres
+  - BENCH=ycsb DB=mysql
+  - BENCH=ycsb DB=cassandra
   # - BENCH=TPCH DB=mysql
   # - BENCH=TPCH DB=postgres
 # https://stackoverflow.com/questions/34377017/what-are-the-differences-between-the-before-install-script-travis-yml-opti

@@ -11,9 +11,6 @@ mysql:
   # TODO: docker and local installation may use different default user and pwd
 postgres:
   name: PostgreSQL
-  alias:
-    - postgresql
-    - pg
   driver: org.postgresql.Driver
   port: 5432
   # NOTE: this is needed because database name is postgres instead of postgresql
@@ -24,3 +21,13 @@ postgres:
   create_db: "CREATE DATABASE {db}"
   shell: "psql -U {username} -h 127.0.0.1"
   shell_exec: "psql -U {username} -h 127.0.0.1 -c \"{sql}\""
+cassandra:
+  name: Cassandra
+  driver: com.github.adejanovski.cassandra.jdbc.CassandraDriver
+  port: 9042
+  username: cassandra
+  password: cassandra
+  # desc keyspaces;
+  create_db: "CREATE KEYSPACE IF NOT EXISTS {db} WITH REPLICATION = {'class' : 'SimpleStrategy', 'replication_factor' : 1}"
+  shell: "cqlsh -u {username} -p {password}"
+  shell_exec: "cqlsh -u {username} -p {password} -e \"{sql}\""
