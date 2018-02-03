@@ -7,6 +7,7 @@ popd > /dev/null
 ORIGINAL_WD=${PWD}
 cd ${SCRIPTPATH}
 
-java -Xmx8G -cp `./classpath.sh bin` -Dlog4j.configuration=log4j.properties com.oltpbenchmark.DBWorkload $@
+if [ "$DB" == 'mysql' ]; then docker-compose -f mysql.yml down; fi
+if [ "$DB" == 'postgres' ]; then docker-compose -f postgres.yml down; fi
 
 cd ${ORIGINAL_WD}

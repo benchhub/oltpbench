@@ -17,17 +17,17 @@ addons:
 # TODO: build matrix for different database and benchmarks
 # https://docs.travis-ci.com/user/environment-variables/#Defining-Multiple-Variables-per-Item
 env:
-  - TEST=tpcc DB=mysql
-  # - TEST=tpcc DB=postgres
-  # - TEST=TPCH DB=mysql
-  # - TEST=TPCH DB=postgres
+  - BENCH=tpcc DB=mysql
+  - BENCH=tpcc DB=postgres
+  # - BENCH=TPCH DB=mysql
+  # - BENCH=TPCH DB=postgres
 # https://stackoverflow.com/questions/34377017/what-are-the-differences-between-the-before-install-script-travis-yml-opti
 before_install:
   - sudo pip3 install pyyaml
   - java -version
   - docker version
   - docker-compose version
-  # check if common ports are already in use ...
+  # check if common ports are already in use, travis starts a bunch of DBMS by default ....
   - sudo netstat -nlp | grep :3306
   - sudo netstat -nlp | grep :5432
   - if [ "$DB" == 'mysql' ]; then sudo service mysql stop; fi
@@ -35,13 +35,11 @@ before_install:
 # https://docs.travis-ci.com/user/database-setup/#Multiple-Database-Builds
 install:
   - ant build
-  - if [ "$DB" == 'mysql' ]; then docker-compose -f docker/mysql.yml up -d; fi
-  - if [ "$DB" == 'postgres' ]; then docker-compose -f docker/postgres.yml up -d; fi
+  - ./docker/travis_start.sh
 before_script:
-  - cd config; ./config.py valid
+  - ./config/config.py validate
 script:
-  - cd config; ./config.py generate --bench ${TEST} --db ${DB}
-  - echo "${TEST} ${DB}"
+  - ./config/config.py generate --bench ${BENCH} --db ${DB}
+  - ./oltpbenchmark --bench ${BENCH} --config config/generated_${BENCH}_${DB}_config.xml --create true --load true --execute true
 after_script:
-  - if [ "$DB" == 'mysql' ]; then docker-compose -f docker/mysql.yml down; fi
-  - if [ "$DB" == 'postgres' ]; then docker-compose -f docker/postgres.yml down; fi
+  - ./docker/travis_stop.sh

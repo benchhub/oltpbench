@@ -85,7 +85,7 @@ class ConfigUtil:
         self.database = args.db.lower()
         self.output = args.output
 
-    def valid(self):
+    def validate(self):
         if self.validated:
             return
         self.catalog_benchmarks = validate_benchmarks()
@@ -93,7 +93,7 @@ class ConfigUtil:
         self.validated = True
 
     def generate(self):
-        self.valid()
+        self.validate()
         logging.debug('generate config for benchmark %s database %s',
                       self.benchmark, self.database)
         # check catalog
@@ -131,11 +131,11 @@ class ConfigUtil:
         print(output_file)
 
     def benchmarks(self):
-        self.valid()
+        self.validate()
         print_names(self.catalog_benchmarks)
 
     def databases(self):
-        self.valid()
+        self.validate()
         print_names(self.catalog_databases)
 
 
@@ -149,7 +149,7 @@ def main():
                                      title='subcommands', description='valid subcommands',
                                      help='subcommands')
     commands.add_parser(
-        'valid', help='Check catalog and config template consistency')
+        'validate', help='Check catalog and config template consistency')
     commands.add_parser(
         'benchmarks', help='List supported benchmarks')
     commands.add_parser(
@@ -178,9 +178,12 @@ def main():
         logging.basicConfig(level=logging.DEBUG)
     else:
         logging.basicConfig(level=logging.INFO)
+    # switch to directory of config.py
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    os.chdir(dir_path)
     # dispatch
-    if args.subcommand == 'valid':
-        cli.valid()
+    if args.subcommand == 'validate':
+        cli.validate()
     elif args.subcommand == 'generate':
         cli.read_args(args)
         cli.generate()

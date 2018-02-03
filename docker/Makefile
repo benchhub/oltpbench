@@ -19,6 +19,10 @@ mysql-db-shell:
 .PHONY: mysql-create-db
 mysql-create-db:
 	docker-compose -f mysql.yml exec mysql bash -c 'mysql -u root -poltpbenchpassword -e "CREATE DATABASE IF NOT EXISTS tpcc;"'
+
+.PHONY: postgres-db-shell
+postgres-db-shell:
+	docker-compose -f postgres.yml exec postgres psql -U oltpbench -h 127.0.0.1
 ##--- database ---#
 
 ##--- benchmark ---#

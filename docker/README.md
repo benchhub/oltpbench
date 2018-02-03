@@ -19,6 +19,16 @@ TODO
 docker-compose -f mysql.yml up
 ````
 
+ ./oltpbenchmark --bench "${TEST}" --config "${config}"  --create true    --load true   --execute true ;
+
+````bash
+export BENCH=tpcc
+export DB=mysql
+./travis_start
+../config/config.py generate --bench=${BENCH} --db=${DB}
+../oltpbenchmark --bench ${BENCH} --config config/generated_${BENCH}_${DB}_config.xml --create true --load true --execute true
+````
+
 ## Development
 
 TODO
