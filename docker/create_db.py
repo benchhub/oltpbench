@@ -90,11 +90,16 @@ class DbUtil:
         sql = db['create_db'].replace('{db}', self.benchmark)
         cmd = cmd.replace('{username}', db['username']).replace(
             '{password}', db['password']).replace('{sql}', sql)
-        logging.debug('execute use docker-compose %s', cmd)
-        code = subprocess.call([
-            'docker-compose', '-f', self.database + '.yml',
-            'exec', self.database, 'bash', '-c', cmd
-        ])
+        logging.debug('cmd to be executed %s', cmd)
+        if 'require_native_shell' in db and db['require_native_shell'] == True:
+            logging.debug('using native shell as required')
+            code = subprocess.call(cmd, shell=True)
+        else:
+            logging.debug('using shell in docker-compose')
+            code = subprocess.call([
+                'docker-compose', '-f', self.database + '.yml',
+                'exec', self.database, 'bash', '-c', cmd
+            ])
         if code != 0:
             logging.error('non zero return code %d', code)
             exit(1)
