@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-'''
+"""
 valid and generate config file based on catalog and template
-'''
+"""
 
 import os
 import sys
@@ -45,6 +45,17 @@ def print_names(entities):
         print(s)
 
 
+def find_entity(entities, name, allow_alias=True):
+    for primary_name, entity in entities.items():
+        if primary_name == name:
+            return entity, primary_name
+        if allow_alias and 'alias' in entity:
+            for alias in entity['alias']:
+                if alias == name:
+                    return entity, primary_name
+    return None, name
+
+
 def validate_benchmarks():
     logging.debug('validate %s', CATALOG_BENCHMARK_FILE)
     benchmarks = load_yaml(CATALOG_BENCHMARK_FILE)
@@ -86,15 +97,32 @@ class ConfigUtil:
         self.output = args.output
 
     def validate_args(self):
+        # TODO: the code for benchmark and database are identical except the log message
         if not self.benchmark in self.catalog_benchmarks:
-            logging.error(
-                'benchmark %s is not in catalog, run `config.py benchmarks` to see supported benchmarks', self.benchmark)
-            exit(1)
+            entity, primary_name = find_entity(
+                self.catalog_benchmarks, self.benchmark, True)
+            if entity is None:
+                logging.error(
+                    'benchmark %s is not in catalog, run `config.py benchmarks` to see supported benchmarks',
+                    self.benchmark)
+                exit(1)
+            else:
+                logging.debug('%s is alias of benchmark %s',
+                              self.benchmark, primary_name)
+                self.benchmark = primary_name
         if not self.database in self.catalog_databases:
-            logging.error(
-                'database %s is not in catlog, run `config.py databases` to see supported databases', self.database)
-            exit(1)
+            entity, primary_name = find_entity(
+                self.catalog_databases, self.database, True)
+            if entity is None:
+                logging.error(
+                    'database %s is not in catlog, run `config.py databases` to see supported databases', self.database)
+                exit(1)
+            else:
+                logging.debug('%s is alias of database %s',
+                              self.database, primary_name)
+                self.database = primary_name
 
+    # validate load config and check if it is valid
     def validate(self):
         if self.validated:
             return
@@ -150,7 +178,7 @@ def main():
         description='Oltpbench configuration util')
     # subcommands
     commands = parser.add_subparsers(dest='subcommand',
-                                     title='subcommands', description='valid subcommands',
+                                     title='subcommands',
                                      help='subcommands')
     commands.add_parser(
         'validate', help='Check catalog and config template consistency')

@@ -14,6 +14,8 @@ docker-compose -f ${DB}.yml up -d
 
 if [ "$DB" == 'mysql' ]; then
     sleep 10
+elif [ "$DB" == 'cassandra' ]; then
+    sleep 15
 else
     sleep 5
 fi

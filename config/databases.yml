@@ -1,6 +1,8 @@
 # list of databases in alphabetical order
 mysql:
   name: MySQL
+  alias:
+    - dolphin
   driver: com.mysql.jdbc.Driver
   port: 3306
   username: root
@@ -11,6 +13,9 @@ mysql:
   # TODO: docker and local installation may use different default user and pwd
 postgres:
   name: PostgreSQL
+  alias:
+    - postgresql
+    - pg
   driver: org.postgresql.Driver
   port: 5432
   # NOTE: this is needed because database name is postgres instead of postgresql
@@ -23,6 +28,8 @@ postgres:
   shell_exec: "psql -U {username} -h 127.0.0.1 -c \"{sql}\""
 cassandra:
   name: Cassandra
+  alias:
+    - C*
   driver: com.github.adejanovski.cassandra.jdbc.CassandraDriver
   port: 9042
   username: cassandra
