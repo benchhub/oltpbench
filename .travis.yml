@@ -19,6 +19,10 @@ addons:
 env:
   - BENCH=tpcc DB=mysql
   - BENCH=tpcc DB=postgres
+  - BENCH=tpcc DB=tidb
+  - BENCH=tpcc DB=memsql
+  - BENCH=epinions DB=mysql
+  - BENCH=tatp DB=mysql
   - BENCH=ycsb DB=mysql
   - BENCH=voter DB=mysql
   - BENCH=auctionmark DB=mysql
@@ -50,7 +54,7 @@ install:
 before_script:
   - ./config/config.py validate
 script:
-  - ./config/config.py generate --bench ${BENCH} --db ${DB}
+  - ./config/config.py generate --bench ${BENCH} --db ${DB} --scalefactor 1
   - ./oltpbenchmark --bench ${BENCH} --config config/generated_${BENCH}_${DB}_config.xml --create true --load true --execute true
 after_script:
   - ./docker/travis_stop.sh

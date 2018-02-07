@@ -86,6 +86,7 @@ class ConfigUtil:
         self.output = ''
         self.benchmark = ''
         self.database = ''
+        self.scalefactor = None
         self.catalog_benchmarks = None
         self.catalog_databases = None
         self.validated = False
@@ -95,6 +96,7 @@ class ConfigUtil:
         self.benchmark = args.bench.lower()
         self.database = args.db.lower()
         self.output = args.output
+        self.scalefactor = args.scalefactor
 
     def validate_args(self):
         # TODO: the code for benchmark and database are identical except the log message
@@ -154,6 +156,8 @@ class ConfigUtil:
             '{host}', 'localhost').replace('{port}', str(db['port'])).replace('{db}', self.benchmark)
         root.find('username').text = db['username']
         root.find('password').text = db['password']
+        if self.scalefactor is not None:
+            root.find('scalefactor').text = str(self.scalefactor)
         if self.output:
             output_file = self.output
         else:
@@ -193,6 +197,8 @@ def main():
                          type=str, help='benchmark type i.e. tpcc, tpch', required=True)
     cmd_gen.add_argument('--db', metavar='<database>',
                          type=str, help='target database i.e. mysql, postgres', required=True)
+    cmd_gen.add_argument('--scalefactor', metavar='<scale-factor>',
+                         type=int, help='the scale factor', required=False)
     # global flags
     # NOTE: you have to apply them before sub command, i.e. config.py --verbose valid instead of config.py valid --verbose
     parser.add_argument('--verbose', dest='verbose',
