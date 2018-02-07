@@ -45,8 +45,8 @@ before_install:
   # check if common ports are already in use, travis starts a bunch of DBMS by default ....
   - sudo netstat -nlp | grep :3306
   - sudo netstat -nlp | grep :5432
-  - if [ "$DB" == 'mysql' ]; then sudo service mysql stop; fi
-  - if [ "$DB" == 'postgres' ]; then sudo service postgresql stop; fi
+  - sudo service mysql stop; fi
+  - sudo service postgresql stop; fi
 # https://docs.travis-ci.com/user/database-setup/#Multiple-Database-Builds
 install:
   - ant build

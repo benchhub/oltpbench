@@ -23,7 +23,7 @@ chbenchmark:
     - ch
     - mix
   url: https://db.in.tum.de/research/projects/CHbenCHmark/?lang=en
-epionions:
+epinions:
   name: Epinions
   description: Epinions.com was a general consumer review site established in 1999. Epinions was acquired by Shopping.com in 2003, which in turn was acquired by eBay in 2005
   alias:
