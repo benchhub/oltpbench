@@ -34,13 +34,24 @@ tidb:
   driver: com.mysql.jdbc.Driver
   port: 4000
   # NOTE: this is needed because tidb is mysql compataible
-  dburl: "jdbc:postgresql://{host}:{port}/{db}"
+  dburl: "jdbc:mysql://{host}:{port}/{db}"
   username: root
-  password: 'notused'
+  password: ''
   create_db: "CREATE DATABASE IF NOT EXISTS {db}"
   shell: "mysql -u {username} -h 127.0.0.1 -P 4000"
   shell_exec: "mysql -u {username} -h 127.0.0.1 -P 4000 -e \"{sql}\""
   require_native_shell: true # tidb's docker container does not ship with mysql client
+memsql:
+  name: MemSQL
+  driver: com.mysql.jdbc.Driver
+   # NOTE: this is needed because memsql is mysql compataible
+  dburl: "jdbc:mysql://{host}:{port}/{db}"
+  port: 3306
+  username: root
+  password: ''
+  create_db: "CREATE DATABASE IF NOT EXISTS {db}"
+  shell: "memsql-shell -u {username}"
+  shell_exec: "memsql-shell -u {username} -e \"{sql}\""
 ### --- end of RDBMS --- ###
 ### --- start of column family --- ###
 cassandra:
