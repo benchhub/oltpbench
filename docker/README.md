@@ -57,3 +57,11 @@ Add a new database
   - 10.1 Default
 - TiDB
 - MemSQL
+
+## Package oltpbench itself as image
+
+````bash
+# would tag as latest
+make docker-build-runner
+docker run benchhub/oltpbench 
+````
