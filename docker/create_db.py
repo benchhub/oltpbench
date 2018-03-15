@@ -96,8 +96,9 @@ class DbUtil:
             code = subprocess.call(cmd, shell=True)
         else:
             logging.debug('using shell in docker-compose')
+            compose_file = 'database/' + self.database + '/docker-compose.yml'
             code = subprocess.call([
-                'docker-compose', '-f', self.database + '.yml',
+                'docker-compose', '-f', compose_file,
                 'exec', self.database, 'bash', '-c', cmd
             ])
         if code != 0:

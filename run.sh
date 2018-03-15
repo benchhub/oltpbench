@@ -9,6 +9,10 @@ popd > /dev/null
 ORIGINAL_WD=${PWD}
 cd ${SCRIPTPATH}
 
-docker-compose -f database/${DB}/docker-compose.yml down
+./docker/travis_start.sh
+./config/config.py generate --bench=${BENCH} --db=${DB}
+./oltpbenchmark --bench ${BENCH} --config config/generated_${BENCH}_${DB}_config.xml --create true --load true --execute true
 
 cd ${ORIGINAL_WD}
+
+./docker/travis_stop.sh

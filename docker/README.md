@@ -25,7 +25,7 @@ Create a database using db shell inside the container
 ````bash
 ./create_db.py --bench=tpcc --db=mysql
 # which actually runs
-# docker-compose -f mysql.yml exec mysql bash -c 'mysql -u root -poltpbenchpassword -e "CREATE DATABASE IF NOT EXISTS tpcc"'
+docker-compose -f database/mysql/docker-compose.yml exec mysql bash -c 'mysql -u root -poltpbenchpassword -e "CREATE DATABASE IF NOT EXISTS tpcc"'
 ````
 
 Run a benchmark
@@ -34,7 +34,7 @@ Run a benchmark
 # inside docker folder
 export BENCH=tpcc
 export DB=mysql
-./travis_start
+./travis_start.sh
 ../config/config.py generate --bench=${BENCH} --db=${DB}
 ../oltpbenchmark --bench ${BENCH} --config config/generated_${BENCH}_${DB}_config.xml --create true --load true --execute true
 ````

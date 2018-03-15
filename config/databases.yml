@@ -41,6 +41,14 @@ tidb:
   shell: "mysql -u {username} -h 127.0.0.1 -P 4000"
   shell_exec: "mysql -u {username} -h 127.0.0.1 -P 4000 -e \"{sql}\""
   require_native_shell: true # tidb's docker container does not ship with mysql client
+#cockroachdb:
+#  name: CockroachDB
+#  alias:
+#    - roach
+#  driver: org.postgresql.Driver
+#  port: 26257
+#  dburl: "jdbc:postgresql://{host}:{port}/{db}"
+#  username: TODO: username
 memsql:
   name: MemSQL
   driver: com.mysql.jdbc.Driver

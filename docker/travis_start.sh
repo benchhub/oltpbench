@@ -10,7 +10,7 @@ ORIGINAL_WD=${PWD}
 cd ${SCRIPTPATH}
 
 
-docker-compose -f ${DB}.yml up -d
+docker-compose -f database/${DB}/docker-compose.yml up -d
 
 echo 'sleep to wait for db server boostrap'
 
